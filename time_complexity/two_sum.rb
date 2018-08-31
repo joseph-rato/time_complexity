@@ -11,7 +11,7 @@ end
 def okay_two_sum?(arr, target_sum)
   arr.sort!
   arr.each do |el|
-    return false if el > target_sum/2 + 1
+    return false if el > target_sum/2 + 1q
     new_target = target_sum - el
     return true if binary_search(arr, new_target)
   end
