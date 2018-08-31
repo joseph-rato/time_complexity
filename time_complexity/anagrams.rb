@@ -1,5 +1,5 @@
 
-# phase 1 -- O(n!)
+# phase 1 -- O((n(n!)
 def first_anagram?(str, check)
   combinations(str.chars).include?(check.chars)
 end
@@ -20,23 +20,23 @@ def combinations(arr_letters)
   result
 end
 
-# phase 2 -- O(n)
+# phase 2 -- O(n^2)
 def second_anagram?(str, check)
   str.chars.each do |letter|
-    return false if check.chars.find_index(letter).nil?
     idx = check.chars.find_index(letter)
+    return false if idx.nil?
     check = check[0...idx] + check[idx+1..-1]
   end
   return false if check.length > 0
   true
 end
 
-# phase 3 -- O(n^2) (average case => n^2)
+# phase 3 -- O(n^2) (average case => nlog(n))
 def third_anagram?(str, check)
-  str.chars.sort.join == check.chars.sort.join
+  str.chars.sort == check.chars.sort
 end
 
-# phase 4 -- O(n)
+# phase 4 -- time: O(n) space: 0(1)
 def fourth_anagram?(str, check)
   hash1 = Hash.new(0)
   hash2 = Hash.new(0)
@@ -45,12 +45,10 @@ def fourth_anagram?(str, check)
   hash1 == hash2
 end
 
-# bonus
-
-def fifth_anagram(str, check)
-  hash = Hash.new(0)
-  (str.chars + check.chars).each do |letter|
-    hash[letter] == 0 ? hash[letter] += 1 : hash[letter] -= 1
-  end
-  !hash.values.any? {|value| value > 0}
+# bonus time: O(n) space: O(1) slightly better space
+def fifth_anagram?(str, check)
+  hash1 = Hash.new(0)
+  str.chars.each { |letter| hash1[letter] += 1 }
+  check.chars.each { |letter| hash1[letter] -= 1 }
+  hash.values.all? { |value| value == 0 }
 end
